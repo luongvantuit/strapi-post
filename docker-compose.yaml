@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+  dev:
+    build: ./
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=dev
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    container_name: postgresql_strapi
+    networks:
+      - dev
+    volumes:
+      - "./data:/var/lib/postgresql/data"
+
+  prod:
+    build: ./
+
+networks:
+  dev:
+    driver: "bridge"
