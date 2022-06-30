@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "9136afdf-3386-49a1-bc8e-97c214f8bc9a",
+		"name": "Strapi Post",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17584498"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($username: String!, $email: String!, $password: String!){\n    register(input: {username: $username, email: $email, password: $password}) {\n        jwt\n        user {\n            id\n            email\n        }\n    }\n}",
+						"variables": "{\n    \"username\": \"luongvantu_t64\",\n    \"email\": \"luongvantu_t64@hus.edu.vn\",\n    \"password\": \"123456\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/graphql",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($identifier: String!, $password: String!, $provider: String! = \"local\") {\n    login (input: {identifier: $identifier, password: $password, provider: $provider}){\n        jwt\n    }\n}",
+						"variables": "{\n    \"identifier\" : \"luongtu650\",\n    \"password\": \"123456\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{HOST}}/graphql",
+					"host": [
+						"{{HOST}}"
+					],
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST",
+			"value": "http://localhost:1337",
+			"type": "string"
+		}
+	]
+}
