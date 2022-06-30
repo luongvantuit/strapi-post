@@ -1,7 +1,24 @@
 version: '3.5'
 services:
   dev:
-    build: ./
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "1337:1337"
+    environment:
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=dev
+      - DATABASE_USERNAME=admin
+      - DATABASE_PASSWORD=123456
+      - DATABASE_SCHEMA=public
+      - DATABASE_SSL_SELF=false
+    networks:
+      - dev
+    image: post/dev
+    container_name: p0dev
     depends_on:
       - db
 
@@ -14,16 +31,31 @@ services:
       - POSTGRES_DB=dev
       - PGDATA=/var/lib/postgresql/data
     ports:
+      # internal 127.0.0.1:5432:5432
       - "127.0.0.1:5432:5432"
-    container_name: postgresql_strapi
+    container_name: p0db
     networks:
       - dev
     volumes:
       - "./data:/var/lib/postgresql/data"
 
   prod:
-    build: ./
-
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "1337:1337"
+    environment:
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=127.0.0.1
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=dev
+      - DATABASE_USERNAME=admin
+      - DATABASE_PASSWORD=123456
+      - DATABASE_SCHEMA=public
+      - DATABASE_SSL_SELF=false
+    image: post/prod
+    container_name: p0prod
 networks:
   dev:
     driver: "bridge"
